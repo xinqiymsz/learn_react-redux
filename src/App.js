@@ -1,26 +1,55 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import store from './store'
+import connect from './react-redux/components/connect'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      num: 22
+    }
+  }
+
+//   componentDidMount() {
+//     this.unsub = store.subscribe(() => {
+//         if(this.state.num === store.getState().num) {
+//             return;
+//          }
+//          console.log('lalall11111a');
+//         this.setState({
+//             num: store.getState().num
+//         });
+//     });
+// }
+//   render () {
+//     return <div>
+//       {this.state.num}
+//       <button onClick={() => {store.dispatch({
+//         type: 'ADD',
+//         payload: 22
+//       })}}>+</button>
+//     </div>
+//   }
+  render () {
+    return <div>
+      {this.props.num}
+      <button onClick={() => this.props.add(999)}>+</button>
     </div>
-  );
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  num: state.num
+})
+const mapDispatchToProps = (dispatch) => {
+  return {
+    add: (num) => {
+      dispatch({
+        type: 'ADD',
+        payload: num
+      })
+    }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App);
